@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Room from "../models/room";
+import ErrorHandler from "../utils/errorHandler";
+import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
 
 // Get all rooms => /api/rooms
-export const allRoooms = async (request: NextRequest) => {
+export const allRoooms = catchAsycnErrors(async (request: NextRequest) => {
   const resPerPage: number = 8;
 
   const rooms = await Room.find();
@@ -12,10 +14,10 @@ export const allRoooms = async (request: NextRequest) => {
     resPerPage,
     rooms,
   });
-};
+});
 
 // Create new room => /api/admin/rooms
-export const newRoom = async (req: NextRequest) => {
+export const newRoom = catchAsycnErrors(async (req: NextRequest) => {
   const body = await req.json();
 
   const room = await Room.create(body);
@@ -24,32 +26,31 @@ export const newRoom = async (req: NextRequest) => {
     success: true,
     room,
   });
-};
+});
 
 // Get room details => /api/rooms/:id
-export const getRoomDetails = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  const room = await Room.findById(params.id);
+export const getRoomDetails = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const room = await Room.findById(params.id);
 
-  if (!room) {
-    return NextResponse.json(
-      {
-        message: "Room not found",
-      },
-      { status: 404 }
-    );
+    if (!room) {
+      return NextResponse.json(
+        {
+          message: "Room not found",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      room,
+    });
   }
-
-  return NextResponse.json({
-    success: true,
-    room,
-  });
-};
+);
 
 // Update room details => /api/admin/rooms/:id
-export const updateRoom = async (
+export const updateRoom = catchAsycnErrors (async (
   req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
@@ -73,10 +74,10 @@ export const updateRoom = async (
     success: true,
     room,
   });
-};
+});
 
 // Delete room details => /api/admin/rooms/:id
-export const deleteRoom = async (
+export const deleteRoom = catchAsycnErrors (async (
   req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
@@ -98,4 +99,4 @@ export const deleteRoom = async (
   return NextResponse.json({
     success: true,
   });
-};
+});
