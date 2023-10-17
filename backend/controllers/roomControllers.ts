@@ -14,7 +14,7 @@ export const allRoooms = async (request: NextRequest) => {
   });
 };
 
-// Create new room => /api/rooms
+// Create new room => /api/admin/rooms
 export const newRoom = async (req: NextRequest) => {
   const body = await req.json();
 
@@ -48,7 +48,7 @@ export const getRoomDetails = async (
   });
 };
 
-// Update room details => /api/rooms/:id
+// Update room details => /api/admin/rooms/:id
 export const updateRoom = async (
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -72,5 +72,30 @@ export const updateRoom = async (
   return NextResponse.json({
     success: true,
     room,
+  });
+};
+
+// Delete room details => /api/admin/rooms/:id
+export const deleteRoom = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) => {
+  let room = await Room.findById(params.id);
+
+  if (!room) {
+    return NextResponse.json(
+      {
+        message: "Room not found",
+      },
+      { status: 404 }
+    );
+  }
+
+  // To do: delete images associated with the room
+
+  await room.deleteOne();
+
+  return NextResponse.json({
+    success: true,
   });
 };
