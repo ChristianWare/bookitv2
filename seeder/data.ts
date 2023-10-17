@@ -52,7 +52,7 @@ export const rooms = [
         url: "http://res.cloudinary.com/udemy-courses/image/upload/v1694680598/bookit/demo/tvheutup1idr5wi0p5bq.jpg",
       },
     ],
-    category: "Twins",
+    category: "Twin",
     reviews: [],
   },
   {
@@ -164,7 +164,7 @@ export const rooms = [
         url: "http://res.cloudinary.com/udemy-courses/image/upload/v1693136789/bookit/demo/hmvqt42lzdjc197ynrtk.jpg",
       },
     ],
-    category: "Twins",
+    category: "Twin",
     reviews: [],
   },
   {
