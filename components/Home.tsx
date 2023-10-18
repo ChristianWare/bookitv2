@@ -1,7 +1,20 @@
 import Image from "next/image";
 import RoomItem from "./room/RoomItem";
+import { IRoom } from "@/backend/models/room";
 
-const Home = ({ data }) => {
+interface Props {
+  data: {
+    success: boolean;
+    resPerPage: number;
+    filteredRoomsCount: number;
+    rooms: IRoom[];
+  };
+}
+
+const Home = ({ data }: Props) => {
+
+  const { rooms, resPerPage, filteredRoomsCount} = data
+
   return (
     <div>
       <section id='rooms' className='container mt-5'>
@@ -10,9 +23,13 @@ const Home = ({ data }) => {
           <i className='fa fa-arrow-left'></i> Back to Search
         </a>
         <div className='row mt-4'>
-          <RoomItem />
-          <RoomItem />
-          <RoomItem />
+          {rooms?.length === 0 ? (
+            <div className='alret alret-danger mt-5 w-100'>
+              <b>No Rooms.</b>
+            </div>
+          ) : (
+            rooms?.map((room) => <RoomItem key={room._id} room={room}/>)
+          )}
         </div>
       </section>
     </div>
