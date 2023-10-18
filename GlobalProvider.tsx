@@ -1,3 +1,10 @@
+import { Toaster } from "react-hot-toast";
+
 export function Globalprovider({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <Toaster />
+      {children}
+    </>
+  );
 }
