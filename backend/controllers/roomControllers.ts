@@ -10,6 +10,7 @@ export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
 
   const { searchParams } = new URL(req.url);
 
+
   const queryStr: any = {};
 
   searchParams.forEach((value, key) => {

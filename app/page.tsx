@@ -1,18 +1,21 @@
 import Home from "@/components/Home";
+import Error from "./error";
 
 const getRooms = async () => {
-  const res = await fetch("http://localhost:3000/api/rooms", {
-    cache: "no-store",
-  });
+  const res = await fetch(`${process.env.API_URI}/api/rooms`);
   return res.json();
 };
 
 export default async function HomePage() {
-  const rooms = await getRooms();
-  console.log("resPerPage =>", rooms.resPerPage);
+  const data = await getRooms();
+
+  if (data?.message) {
+    return <Error error={data} />;
+  }
+
   return (
     <div className='container'>
-      <Home />
+      <Home data={data} />
     </div>
   );
 }

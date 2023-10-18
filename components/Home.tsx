@@ -1,7 +1,7 @@
 import Image from "next/image";
 import RoomItem from "./room/RoomItem";
 
-const Home = () => {
+const Home = ({ data }) => {
   return (
     <div>
       <section id='rooms' className='container mt-5'>
