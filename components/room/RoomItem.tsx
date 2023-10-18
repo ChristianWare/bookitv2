@@ -10,6 +10,7 @@ interface Props {
 }
 
 const RoomItem = ({ room }: Props) => {
+  console.log(room)
   return (
     <div className='col-sm-12 col-md-6 col-lg-3 my-3 d-flex'>
       <div className='card p-2 w-100'>
@@ -26,7 +27,7 @@ const RoomItem = ({ room }: Props) => {
         />
         <div className='card-body d-flex flex-column'>
           <h5 className='card-title'>
-            <Link href='/rooms/roomId'>{room?.name}</Link>
+            <Link href={`/rooms/${room?._id}`}>{room?.name}</Link>
           </h5>
           <div className='mt-auto'>
             <p className='card-text mt-2'>
