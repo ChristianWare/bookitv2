@@ -23,7 +23,6 @@ export default async function RoomDetailsPage({ params }: Props) {
   
   return (
     <div>
-      <h1>{data?.room?.name}</h1>
       <RoomDetails data={data} />
     </div>
   );
