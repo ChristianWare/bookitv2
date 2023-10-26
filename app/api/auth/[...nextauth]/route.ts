@@ -5,7 +5,6 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-
 async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
     session: {
@@ -43,9 +42,6 @@ async function auth(req: NextApiRequest, res: NextApiResponse) {
     ],
     callbacks: {
       jwt: async ({ token, user }) => {
-        console.log("token", token);
-        console.log("user", token);
-
         user && (token.user = user);
 
         // TODO: update session when user is updated
@@ -54,7 +50,8 @@ async function auth(req: NextApiRequest, res: NextApiResponse) {
       session: async ({ session, token }) => {
         session.user = token.user as IUser;
 
-        console.log("session =>", session);
+        // @ts-ignore
+        delete session?.user?.password;
 
         return session;
       },
