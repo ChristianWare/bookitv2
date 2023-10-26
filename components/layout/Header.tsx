@@ -1,16 +1,17 @@
-import Image from "next/image"
+import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   return (
-    <nav className="navbar sticky-top py-2">
-      <div className="container">
-        <div className="col-6 col-lg-3 p-0">
-          <div className="navbar-brand">
-            <a href="/">
+    <nav className='navbar sticky-top py-2'>
+      <div className='container'>
+        <div className='col-6 col-lg-3 p-0'>
+          <div className='navbar-brand'>
+            <a href='/'>
               <Image
-                style={{cursor: "pointer"}}
-                src="/images/bookit_logo.png"
-                alt="BookIT"
+                style={{ cursor: "pointer" }}
+                src='/images/bookit_logo.png'
+                alt='BookIT'
                 width='145'
                 height='33'
               />
@@ -18,40 +19,54 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="col-6 col-lg-3 mt-3 mt-md-0 text-end">
-          <div className="ml-4 dropdown d-line">
+        <div className='col-6 col-lg-3 mt-3 mt-md-0 text-end'>
+          <div className='ml-4 dropdown d-line'>
             <button
-              className="btn dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              className='btn dropdown-toggle'
+              type='button'
+              id='dropdownMenuButton1'
+              data-bs-toggle='dropdown'
+              aria-expanded='false'
             >
-              <figure className="avatar avatar-nav">
+              <figure className='avatar avatar-nav'>
                 <Image
-                  src="/images/default_avatar.jpg"
-                  alt="John Doe"
-                  className="rounded-circle placeholder-glow"
-                  height="50"
-                  width="50"
+                  src='/images/default_avatar.jpg'
+                  alt='John Doe'
+                  className='rounded-circle placeholder-glow'
+                  height='50'
+                  width='50'
                 />
               </figure>
-              <span className="placeholder-glow ps-1"> John Doe</span>
+              <span className='placeholder-glow ps-1'> John Doe</span>
             </button>
 
             <div
-              className="dropdown-menu w-100"
-              aria-labelledby="dropdownMenuButton1"
+              className='dropdown-menu w-100'
+              aria-labelledby='dropdownMenuButton1'
             >
-              <a href="/admin/dashboard" className="dropdown-item">Dashboard</a>
-              <a href="/bookings/me" className="dropdown-item">My Bookings</a>
-              <a href="/me/update" className="dropdown-item">Profile</a>
-              <a href="/" className="dropdown-item text-danger">Logout</a>
+              <a href='/admin/dashboard' className='dropdown-item'>
+                Dashboard
+              </a>
+              <a href='/bookings/me' className='dropdown-item'>
+                My Bookings
+              </a>
+              <a href='/me/update' className='dropdown-item'>
+                Profile
+              </a>
+              <a href='/' className='dropdown-item text-danger'>
+                Logout
+              </a>
             </div>
           </div>
+          <Link
+            href='/login'
+            className='btn btn-danger px-4 text-white login-header-btn float-right'
+          >
+            Login
+          </Link>
         </div>
       </div>
     </nav>
-  )
-}
-export default Header
+  );
+};
+export default Header;

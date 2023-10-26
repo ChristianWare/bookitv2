@@ -2,13 +2,9 @@ import { dbConnect } from "@/backend/config/dbConnect";
 import User, { IUser } from "@/backend/models/user";
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth from "next-auth";
-import { CredentialsProvider } from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-type Credentials = {
-  email: string;
-  password: string;
-};
 
 async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
@@ -18,10 +14,13 @@ async function auth(req: NextApiRequest, res: NextApiResponse) {
     providers: [
       // @ts-ignore
       CredentialsProvider({
-        async authorize(credentials: Credentials) {
+        async authorize(credentials) {
           dbConnect();
 
-          const { email, password } = credentials;
+          const { email, password } = credentials as {
+            email: string;
+            password: string;
+          };
 
           const user = await User.findOne({ email }).select("+password");
 
