@@ -11,7 +11,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
-  console.log(user);
+  // console.log(user);
 
   const { data } = useSession();
 
