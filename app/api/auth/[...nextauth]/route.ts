@@ -47,6 +47,7 @@ async function auth(req: NextApiRequest, res: NextApiResponse) {
     callbacks: {
       jwt: async ({ token, user }) => {
         const jwtToken = token as Token;
+
         user && (token.user = user);
 
         // Update session when user is updated
@@ -65,6 +66,9 @@ async function auth(req: NextApiRequest, res: NextApiResponse) {
 
         return session;
       },
+    },
+    pages: {
+      signIn: "/login",
     },
     secret: process.env.NEXTAUTH_SECRET,
   });
