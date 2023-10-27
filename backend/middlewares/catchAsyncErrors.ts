@@ -23,6 +23,11 @@ export const catchAsycnErrors =
         error.statusCode = 400;
       }
 
+      // Handling mongoose duplicate key error:
+      if (error.code === 11000) {
+        error.message = "Email is invalid or already taken";
+      }
+
       return NextResponse.json(
         {
           errMessage: error.message,
