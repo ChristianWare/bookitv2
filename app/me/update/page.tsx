@@ -1,10 +1,14 @@
-import UpdateProfile from "@/components/user/UpdateProfile"
+import UpdateProfile from "@/components/user/UpdateProfile";
+
+export const metadata = {
+  title: "Update Profile",
+};
 
 const UpdateProfilePage = () => {
   return (
     <div>
-        <UpdateProfile />
+      <UpdateProfile />
     </div>
-  )
-}
-export default UpdateProfilePage
+  );
+};
+export default UpdateProfilePage;

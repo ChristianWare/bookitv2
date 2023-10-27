@@ -50,7 +50,7 @@ export const updatePassword = catchAsycnErrors(async (req: NextRequest) => {
   }
 
   user.password = body.password;
-  await user.save;
+  await user.save();
 
   return NextResponse.json({
     success: true,

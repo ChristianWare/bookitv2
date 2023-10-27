@@ -16,7 +16,7 @@ const UserSidebar = () => {
       icon: "fas fa-user-circle",
     },
     {
-      name: "Update Profile",
+      name: "Update Password",
       url: "/me/update_password",
       icon: "fas fa-lock",
     },
