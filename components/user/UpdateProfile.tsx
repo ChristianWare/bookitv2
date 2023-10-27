@@ -14,6 +14,8 @@ import { setUser } from "@/redux/features/userSlice";
 const UpdateProfile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -44,15 +46,27 @@ const UpdateProfile = () => {
       updateSession();
       router.refresh();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, error, isSuccess, router]);
+
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const userData = { name, email };
 
+    if (name.length < 3) {
+      toast.error("Name must be at least 3 characters");
+      return;
+    }
+
+    if (!email.includes("@") || !email.includes(".")) {
+      toast.error("Invalid email format");
+      return;
+    }
+
     updateProfile(userData);
+    toast.success("Successfully updated profile");
   };
 
   return (
@@ -88,7 +102,6 @@ const UpdateProfile = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-
           <button
             type='submit'
             className='btn form-btn w-100 py-2'

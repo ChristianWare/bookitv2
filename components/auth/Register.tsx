@@ -29,18 +29,22 @@ const Register = () => {
     if (isSuccess) {
       router.push("/login");
       toast.success("Account Registered. You can login now");
-      console.log("registered Successfully")
     }
   }, [error, isSuccess]);
 
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault;
+    e.preventDefault();
 
     const userData = {
       name,
       email,
       password,
     };
+
+    if (name.length < 3) {
+      toast.error("Name must be at least 3 characters");
+      return;
+    }
 
     if (isSuccess) {
       router.push("/login");
