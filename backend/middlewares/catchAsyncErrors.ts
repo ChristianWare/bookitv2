@@ -25,7 +25,7 @@ export const catchAsycnErrors =
 
       return NextResponse.json(
         {
-          message: error.message,
+          errMessage: error.message,
         },
         { status: error.statusCode || 500 }
       );
