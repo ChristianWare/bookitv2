@@ -12,7 +12,7 @@ const UserSidebar = () => {
     },
     {
       name: "Upload Avatar",
-      url: "/me/update_avatar",
+      url: "/me/upload_avatar",
       icon: "fas fa-user-circle",
     },
     {

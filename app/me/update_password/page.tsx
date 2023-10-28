@@ -4,11 +4,11 @@ export const metadata = {
   title: "Update Password",
 };
 
-const uUpdatePasswordPage = () => {
+const UpdatePasswordPage = () => {
   return (
     <div>
       <UpdatePassword />
     </div>
   );
 };
-export default uUpdatePasswordPage;
+export default UpdatePasswordPage;
