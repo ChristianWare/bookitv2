@@ -15,6 +15,7 @@ export interface IUser extends Document {
   resetPasswordToken: string;
   resetPasswordExpire: Date;
   comparePassword(enteredPassword: string): Promise<boolean>;
+  getResetPasswordToken(): string;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema({
