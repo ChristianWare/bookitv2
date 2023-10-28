@@ -5,6 +5,7 @@ import ErrorHandler from "../utils/errorHandler";
 import { delete_file, upload_file } from "../utils/cloudinary";
 import { resetPasswordHTMLTemplate } from "../utils/emailTemplates";
 import sendEmail from "../utils/sendEmail";
+import crypto from "crypto";
 
 // Register User => /api/auth/register
 export const registerUser = catchAsycnErrors(async (req: NextRequest) => {
@@ -81,7 +82,7 @@ export const uploadAvatar = catchAsycnErrors(async (req: NextRequest) => {
   });
 });
 
-// Forgor password => /api/password/forgot
+// Forgot password => /api/password/forgot
 export const forgotPassword = catchAsycnErrors(async (req: NextRequest) => {
   const body = await req.json();
 
@@ -121,3 +122,44 @@ export const forgotPassword = catchAsycnErrors(async (req: NextRequest) => {
     user,
   });
 });
+
+// Reset password => /api/password/reset/:token
+export const resetPassword = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { token: string } }) => {
+    const body = await req.json();
+
+    // Hash the token:
+    const resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(params.token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      throw new ErrorHandler(
+        "Password reset token is invalid or has expired",
+        404
+      );
+    }
+
+    if (body.password !== body.confirmPassword) {
+      throw new ErrorHandler("Passwords do not match", 400);
+    }
+
+    // Set the new password:
+    user.password = body.password;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save();
+
+    return NextResponse.json({
+      success: true,
+    });
+  }
+);
