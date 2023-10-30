@@ -66,7 +66,7 @@ const RoomDetails = ({ data }: Props) => {
           <RoomFeatures room={room} />
         </div>
 
-        <div className='col-12 col-md-6 col-lg-4'>
+        <div className='col-12 col-md-6 col-lg-3'>
           <BookingDatePicker room={room} />
 
           {/*  Room map to be added  */}
