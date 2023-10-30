@@ -174,7 +174,7 @@ roomSchema.pre("save", async function (next) {
     formattedAddress: loc[0].formattedAddress,
     city: loc[0].city,
     state: loc[0].stateCode,
-    zipCode: loc[0].zipCode,
+    zipCode: loc[0].zipcode,
     country: loc[0].countryCode,
   };
 });
