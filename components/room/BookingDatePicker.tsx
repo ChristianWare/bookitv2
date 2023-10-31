@@ -105,7 +105,10 @@ const BookingDatePicker = ({ room }: Props) => {
 
       {daysOfStay > 0 && (
         <div className='total-cost'>
-          Length of Stay: <b>{daysOfStay} days</b>
+          Length of Stay:{" "}
+          <b>
+            {daysOfStay} {daysOfStay <= 1 ? 'day' : 'days'}
+          </b>
           <br />
           <br />
           Total Cost: <b>${totalCost}</b>
