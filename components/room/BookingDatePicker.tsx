@@ -22,7 +22,6 @@ const BookingDatePicker = ({ room }: Props) => {
   const [daysOfStay, setDaysOfStay] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
 
-
   const [newBooking] = useNewBookingsMutation();
 
   const [checkBookingAvailability, { data }] =
@@ -71,7 +70,6 @@ const BookingDatePicker = ({ room }: Props) => {
     };
 
     newBooking(bookingData);
-
   };
 
   return (
@@ -107,6 +105,9 @@ const BookingDatePicker = ({ room }: Props) => {
 
       {daysOfStay > 0 && (
         <div className='total-cost'>
+          Length of Stay: <b>{daysOfStay} days</b>
+          <br />
+          <br />
           Total Cost: <b>${totalCost}</b>
         </div>
       )}
