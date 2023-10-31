@@ -43,7 +43,6 @@ const BookingDatePicker = ({ room }: Props) => {
 
     if (checkInDate && checkOutDate) {
       const days = calculateDaysOfStay(checkInDate, checkOutDate);
-      const cost = room.pricePerNight * days;
 
       setDaysOfStay(days);
       setTotalCost(room.pricePerNight * days); // Calculate and set the total cost
