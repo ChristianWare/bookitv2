@@ -3,6 +3,7 @@
 import { IRoom } from "@/backend/models/room";
 import { calculateDaysOfStay } from "@/helpers/helpers";
 import {
+  useGetBookedDatesQuery,
   useLazyCheckBookingAvailabilityQuery,
   useNewBookingsMutation,
 } from "@/redux/api/bookingApi";
@@ -19,6 +20,8 @@ const BookingDatePicker = ({ room }: Props) => {
   const [checkInDate, setCheckInDate] = useState(new Date());
   const [checkOutDate, setCheckOutDate] = useState(new Date());
   const [daysOfStay, setDaysOfStay] = useState(0);
+  const [totalCost, setTotalCost] = useState(0);
+
 
   const [newBooking] = useNewBookingsMutation();
 
@@ -26,6 +29,12 @@ const BookingDatePicker = ({ room }: Props) => {
     useLazyCheckBookingAvailabilityQuery();
 
   const isAvailable = data?.isAvailable;
+
+  const { data: { bookedDates: dates } = {} } = useGetBookedDatesQuery(
+    room._id
+  );
+
+  const excludeDates = dates?.map((date: string) => new Date(date)) || [];
 
   const onChange = (dates: Date[]) => {
     const [checkInDate, checkOutDate] = dates;
@@ -37,6 +46,7 @@ const BookingDatePicker = ({ room }: Props) => {
       const days = calculateDaysOfStay(checkInDate, checkOutDate);
 
       setDaysOfStay(days);
+      setTotalCost(room.pricePerNight * days); // Calculate and set the total cost
 
       // check Booking Availability:
       checkBookingAvailability({
@@ -61,6 +71,7 @@ const BookingDatePicker = ({ room }: Props) => {
     };
 
     newBooking(bookingData);
+
   };
 
   return (
@@ -78,6 +89,7 @@ const BookingDatePicker = ({ room }: Props) => {
         startDate={checkInDate}
         endDate={checkOutDate}
         minDate={new Date()}
+        excludeDates={excludeDates}
         selectsRange
         inline
       />
@@ -90,6 +102,12 @@ const BookingDatePicker = ({ room }: Props) => {
       {isAvailable === false && (
         <div className='alert alert-danger my-3'>
           Room not available. Try different dates.
+        </div>
+      )}
+
+      {daysOfStay > 0 && (
+        <div className='total-cost'>
+          Total Cost: <b>${totalCost}</b>
         </div>
       )}
 
