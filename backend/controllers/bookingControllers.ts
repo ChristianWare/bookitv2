@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
-import Booking from "../models/booking";
+import Booking, { IBooking } from "../models/booking";
 
+// Create New Booking => /api/bookings
 export const newBooking = catchAsycnErrors(async (req: NextRequest) => {
   const body = await req.json();
 
@@ -29,3 +30,32 @@ export const newBooking = catchAsycnErrors(async (req: NextRequest) => {
     booking,
   });
 });
+
+// Check Room Booking Availability => /api/bookings/check
+export const checkRoomBookingAvailability = catchAsycnErrors(
+  async (req: NextRequest) => {
+    const { searchParams } = new URL(req.url);
+    const roomId = searchParams.get("roomId");
+
+    const checkInDate: Date = new Date(
+      searchParams.get("checkInDate") as string
+    );
+    const checkOutDate: Date = new Date(
+      searchParams.get("checkOutDate") as string
+    );
+
+    const bookings: IBooking[] = await Booking.find({
+      room: roomId,
+      $and: [
+        { checkInDate: { $lte: checkOutDate } },
+        { checkOutDate: { $gte: checkInDate } },
+      ],
+    });
+
+    const isAvailable: boolean = bookings.length === 0;
+
+    return NextResponse.json({
+      isAvailable,
+    });
+  }
+);
