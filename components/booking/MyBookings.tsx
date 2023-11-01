@@ -12,8 +12,15 @@ interface Props {
 
 const MyBookings = ({ data }: Props) => {
   const bookings = data?.bookings;
-  console.log(bookings)
+  console.log(bookings);
 
+  const formatDate = (date: any) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
 
   const setBookings = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -21,6 +28,11 @@ const MyBookings = ({ data }: Props) => {
         {
           label: "ID",
           field: "id",
+          sort: "asc",
+        },
+        {
+          label: "Date Booked",
+          field: "datebooked",
           sort: "asc",
         },
         {
@@ -50,9 +62,13 @@ const MyBookings = ({ data }: Props) => {
     bookings?.forEach((booking) => {
       data?.rows?.push({
         id: booking._id,
-        checkin: new Date(booking?.checkInDate).toLocaleString("en-US"),
-        checkout: new Date(booking?.checkOutDate).toLocaleString("en-US"),
-        amountpaid: `$${booking?.amountPaid}`,
+        datebooked: formatDate(booking.createdAt),
+        checkin: formatDate(booking?.checkInDate),
+        checkout: formatDate(booking?.checkOutDate),
+        amountpaid: `$${booking?.amountPaid?.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`,
         actions: (
           <>
             <Link href={`/bookings/${booking._id}`} className='btn btn-primary'>

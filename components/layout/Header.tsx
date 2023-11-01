@@ -31,7 +31,7 @@ const Header = () => {
       <div className='container'>
         <div className='col-6 col-lg-3 p-0'>
           <div className='navbar-brand'>
-            <a href='/'>
+            <Link href='/'>
               <Image
                 style={{ cursor: "pointer" }}
                 src='/images/bookit_logo.png'
@@ -39,7 +39,7 @@ const Header = () => {
                 width='145'
                 height='33'
               />
-            </a>
+            </Link>
           </div>
         </div>
 
