@@ -12,6 +12,8 @@ interface Props {
 
 const MyBookings = ({ data }: Props) => {
   const bookings = data?.bookings;
+  console.log(bookings)
+
 
   const setBookings = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -49,7 +51,7 @@ const MyBookings = ({ data }: Props) => {
       data?.rows?.push({
         id: booking._id,
         checkin: new Date(booking?.checkInDate).toLocaleString("en-US"),
-        checout: new Date(booking?.checkOutDate).toLocaleString("en-US"),
+        checkout: new Date(booking?.checkOutDate).toLocaleString("en-US"),
         amountpaid: `$${booking?.amountPaid}`,
         actions: (
           <>

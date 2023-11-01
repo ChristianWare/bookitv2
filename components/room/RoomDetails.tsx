@@ -36,7 +36,7 @@ const RoomDetails = ({ data }: Props) => {
   //     // Add marker to the map:
   //     new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
   //   };
-  //   setMap();
+  //   if (room?.location) setMap();
   // }, []);
 
   return (
@@ -77,8 +77,8 @@ const RoomDetails = ({ data }: Props) => {
             <div className='my-5'>
               <h4 className='my-2'>Room Location:</h4>
               <div
-                id="room-map"
-                className="shadow rounded"
+                id='room-map'
+                className='shadow rounded'
                 style={{ height: 350, width: "100%" }}
               ></div>
             </div>
