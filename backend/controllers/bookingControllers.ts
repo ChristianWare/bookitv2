@@ -3,6 +3,7 @@ import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
 import Booking, { IBooking } from "../models/booking";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import ErrorHandler from "../utils/errorHandler";
 
 const moment = extendMoment(Moment);
 
@@ -83,3 +84,27 @@ export const getRoomBookedDates = catchAsycnErrors(async (req: NextRequest) => {
     bookedDates,
   });
 });
+
+// Get current user bookings => /api/bookings/me
+export const myBookings = catchAsycnErrors(async (req: NextRequest) => {
+  const bookings = await Booking.find({ user: req.user._id });
+
+  return NextResponse.json({
+    bookings,
+  });
+});
+
+// Get booking details => /api/bookings/:id
+export const getBookingDetails = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const booking = await Booking.findById(params.id);
+
+    if (booking.user !== req.user._id) {
+      throw new ErrorHandler("You can not view this booking", 403);
+    }
+
+    return NextResponse.json({
+      booking,
+    });
+  }
+);
