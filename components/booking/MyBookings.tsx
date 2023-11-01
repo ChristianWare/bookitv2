@@ -12,7 +12,6 @@ interface Props {
 
 const MyBookings = ({ data }: Props) => {
   const bookings = data?.bookings;
-  console.log(bookings);
 
   const formatDate = (date: any) => {
     return new Date(date).toLocaleDateString("en-US", {
@@ -59,31 +58,39 @@ const MyBookings = ({ data }: Props) => {
       rows: [],
     };
 
-    bookings?.forEach((booking) => {
-      data?.rows?.push({
-        id: booking._id,
-        datebooked: formatDate(booking.createdAt),
-        checkin: formatDate(booking?.checkInDate),
-        checkout: formatDate(booking?.checkOutDate),
-        amountpaid: `$${booking?.amountPaid?.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`,
-        actions: (
-          <>
-            <Link href={`/bookings/${booking._id}`} className='btn btn-primary'>
-              <i className='fa fa-eye'></i>
-            </Link>
-            <Link
-              href={`/bookings/invoice/${booking._id}`}
-              className='btn btn-success ms-2'
-            >
-              <i className='fa fa-receipt'></i>
-            </Link>
-          </>
-        ),
+    bookings
+      ?.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      .forEach((booking) => {
+        data?.rows?.push({
+          id: booking._id,
+          datebooked: formatDate(booking.createdAt),
+          checkin: formatDate(booking?.checkInDate),
+          checkout: formatDate(booking?.checkOutDate),
+          amountpaid: `$${booking?.amountPaid?.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`,
+          actions: (
+            <>
+              <Link
+                href={`/bookings/${booking._id}`}
+                className='btn btn-primary'
+              >
+                <i className='fa fa-eye'></i>
+              </Link>
+              <Link
+                href={`/bookings/invoice/${booking._id}`}
+                className='btn btn-success ms-2'
+              >
+                <i className='fa fa-receipt'></i>
+              </Link>
+            </>
+          ),
+        });
       });
-    });
 
     return data;
   };
