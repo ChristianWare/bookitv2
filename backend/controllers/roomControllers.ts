@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Room, { IRoom } from "../models/room";
+import Room, { IReview, IRoom } from "../models/room";
 import ErrorHandler from "../utils/errorHandler";
 import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
 import APIFilters from "../utils/apiFilters";
@@ -10,13 +10,11 @@ export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
 
   const { searchParams } = new URL(req.url);
 
-
   const queryStr: any = {};
 
   searchParams.forEach((value, key) => {
     queryStr[key] = value;
   });
-
 
   const apiFilters = new APIFilters(Room, queryStr).search().filter();
 
@@ -101,3 +99,45 @@ export const deleteRoom = catchAsycnErrors(
     });
   }
 );
+
+// Create/Update Room review => /api/reviews
+export const createRoomReview = catchAsycnErrors(async (req: NextRequest) => {
+  const body = await req.json();
+  const { rating, comment, roomId } = body;
+
+  const review = {
+    user: req.user._id,
+    rating: Number(rating),
+    comment,
+  };
+
+  const room = await Room.findById(roomId);
+
+  const isReviewd = room?.reviews?.find(
+    (r: IReview) => r.user?.toString() === req?.user?._id?.toString()
+  );
+
+  if (isReviewd) {
+    room?.reviews?.forEach((review: IReview) => {
+      if (review.user?.toString() === req?.user?._id?.toString()) {
+        review.comment = comment;
+        review.rating = rating;
+      }
+    });
+  } else {
+    room.reviews.push(review);
+    room.numOfReviews = room.reviews.length;
+  }
+
+  room.rating =
+    room?.reviews?.reduce(
+      (acc: number, item: { rating: number }) => item.rating + acc,
+      0
+    ) / room?.reviews?.length;
+
+  await room.save();
+
+  return NextResponse.json({
+    success: true,
+  });
+});
