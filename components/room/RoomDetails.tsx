@@ -95,7 +95,7 @@ const RoomDetails = ({ data }: Props) => {
           ></iframe> */}
         </div>
       </div>
-      <NewReview />
+      <NewReview roomId={room?._id} />
       <ListReviews />
     </div>
   );
