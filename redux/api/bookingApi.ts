@@ -23,7 +23,20 @@ export const bookingApi = createApi({
     getBookedDates: builder.query({
       query(id) {
         return {
-          url: `bookings/booked_dates?roomId=${id}`,
+          url: `/bookings/booked_dates?roomId=${id}`,
+        };
+      },
+    }),
+    stripeCheckout: builder.query({
+      query({ id, checkoutData }) {
+        return {
+          url: `/payment/checkout_session/${id}`,
+          params: {
+            checkInDate: checkoutData.checkInDate,
+            checkOutDate: checkoutData.checkOutDate,
+            daysOfStay: checkoutData.daysOfStay,
+            amount: checkoutData.amount,
+          },
         };
       },
     }),
@@ -34,4 +47,5 @@ export const {
   useNewBookingsMutation,
   useLazyCheckBookingAvailabilityQuery,
   useGetBookedDatesQuery,
+  useLazyStripeCheckoutQuery,
 } = bookingApi;

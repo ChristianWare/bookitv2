@@ -22,22 +22,22 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 const RoomDetails = ({ data }: Props) => {
   const { room } = data;
 
-  // useEffect(() => {
-  //   const setMap = async () => {
-  //     const coordinates = room?.location?.coordinates;
+  useEffect(() => {
+    const setMap = async () => {
+      const coordinates = room?.location?.coordinates;
 
-  //     const map = new mapboxgl.Map({
-  //       container: "room-map",
-  //       style: "mapbox://styles/mapbox/streets-v11",
-  //       center: coordinates,
-  //       zoom: 12,
-  //     });
+      const map = new mapboxgl.Map({
+        container: "room-map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: coordinates,
+        zoom: 12,
+      });
 
-  //     // Add marker to the map:
-  //     new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
-  //   };
-  //   if (room?.location) setMap();
-  // }, []);
+      // Add marker to the map:
+      new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+    };
+    if (room?.location) setMap();
+  }, []);
 
   return (
     <div className='container container-fluid'>
@@ -73,7 +73,7 @@ const RoomDetails = ({ data }: Props) => {
 
           {/*  Room map to be added  */}
 
-          {/* {room?.location && (
+          {room?.location && (
             <div className='my-5'>
               <h4 className='my-2'>Room Location:</h4>
               <div
@@ -82,8 +82,8 @@ const RoomDetails = ({ data }: Props) => {
                 style={{ height: 350, width: "100%" }}
               ></div>
             </div>
-          )} */}
-          <iframe
+          )}
+          {/* <iframe
             src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.4805455690466!2d-111.6182358!3d33.4107139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872bb0f7fe6875c5%3A0x94de94ee798d8352!2s230%20S%2098th%20Way%2C%20Mesa%2C%20AZ%2085208!5e0!3m2!1sen!2sus!4v1698700988463!5m2!1sen!2sus'
             width='100%'
             height='450'
@@ -92,7 +92,7 @@ const RoomDetails = ({ data }: Props) => {
             referrerPolicy='no-referrer-when-downgrade'
             className='shadow rounded'
             style={{ height: 350, width: "100%" }}
-          ></iframe>
+          ></iframe> */}
         </div>
       </div>
       <NewReview />
