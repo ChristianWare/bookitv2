@@ -130,18 +130,20 @@ const BookingDatePicker = ({ room }: Props) => {
         inline
       />
 
-      {isAvailable === true && (
-        <div className='alert alert-success my-3'>
-          Room is available. Book now for{" "}
-          <b>
-            $
-            {totalCost.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </b>
-        </div>
-      )}
+      {isAvailable === true &&
+        checkInDate &&
+        checkOutDate &&(
+          <div className='alert alert-success my-3'>
+            Room is available. Book now for{" "}
+            <b>
+              $
+              {totalCost.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </b>
+          </div>
+        )}
       {isAvailable === false && (
         <div className='alert alert-danger my-3'>
           Room not available. Try different dates.
