@@ -47,7 +47,7 @@ export const newRoom = catchAsycnErrors(async (req: NextRequest) => {
 // Get room details => /api/rooms/:id
 export const getRoomDetails = catchAsycnErrors(
   async (req: NextRequest, { params }: { params: { id: string } }) => {
-    const room = await Room.findById(params.id);
+    const room = await Room.findById(params.id).populate("reviews.user");
 
     if (!room) {
       throw new ErrorHandler("Room not found", 404);
