@@ -39,7 +39,7 @@ const RoomItem = ({ room }: Props) => {
               <StarRatings
                 rating={room?.ratings}
                 starRatedColor='#e61e4d'
-                numberOfStars={6}
+                numberOfStars={5}
                 starDimension='18px'
                 starSpacing='1px'
                 name='rating'

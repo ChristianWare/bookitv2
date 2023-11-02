@@ -32,7 +32,7 @@ const ListReviews = ({ reviews }: Props) => {
               <StarRatings
                 rating={review?.rating}
                 starRatedColor='#e61e4d'
-                numberOfStars={6}
+                numberOfStars={5}
                 starDimension='24px'
                 starSpacing='1px'
                 name='rating'

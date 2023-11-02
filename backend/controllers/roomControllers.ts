@@ -3,6 +3,7 @@ import Room, { IReview, IRoom } from "../models/room";
 import ErrorHandler from "../utils/errorHandler";
 import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
 import APIFilters from "../utils/apiFilters";
+import Booking from "../models/booking";
 
 // Get all rooms => /api/rooms
 export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
@@ -139,5 +140,19 @@ export const createRoomReview = catchAsycnErrors(async (req: NextRequest) => {
 
   return NextResponse.json({
     success: true,
+  });
+});
+
+// Can user review room? => /api/reviews/can_review
+export const canReview = catchAsycnErrors(async (req: NextRequest) => {
+  const { searchParams } = new URL(req.url);
+  const roomId = searchParams.get("roomId");
+
+  const bookings = await Booking.find({ user: req.user._id, room: roomId });
+
+  const canReview = bookings?.length > 0 ? true : false;
+
+  return NextResponse.json({
+    canReview,
   });
 });

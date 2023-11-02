@@ -4,6 +4,13 @@ export const roomApi = createApi({
   reducerPath: "roomApi",
   baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
   endpoints: (builder) => ({
+    canUserReview: builder.query({
+      query(id) {
+        return {
+          url: `/reviews/can_review?roomId=${id}`,
+        };
+      },
+    }),
     postReview: builder.mutation({
       query(body) {
         return {
@@ -16,4 +23,4 @@ export const roomApi = createApi({
   }),
 });
 
-export const { usePostReviewMutation } = roomApi;
+export const { usePostReviewMutation, useCanUserReviewQuery } = roomApi;
