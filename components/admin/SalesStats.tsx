@@ -1,4 +1,11 @@
-const SalesStats = () => {
+interface Props {
+  data: {
+    totalSales: number;
+    numberOfBookings: string;
+  };
+}
+
+const SalesStats = ({ data }: Props) => {
   return (
     <div className='row my-5'>
       <div className='col-12 col-lg-6'>
@@ -14,7 +21,12 @@ const SalesStats = () => {
               <div className='col-10'>
                 <p className='card-title'>Sales</p>
                 <p className='h4'>
-                  <b>873,343</b>
+                  <b>
+                    {data?.totalSales.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </b>
                 </p>
               </div>
             </div>
@@ -34,7 +46,7 @@ const SalesStats = () => {
               <div className='col-10'>
                 <p className='card-title'>Bookings</p>
                 <p className='h4'>
-                  <b>230</b>
+                  <b>{data?.numberOfBookings}</b>
                 </p>
               </div>
             </div>
