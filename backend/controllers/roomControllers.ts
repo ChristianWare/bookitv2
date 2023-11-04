@@ -156,3 +156,12 @@ export const canReview = catchAsycnErrors(async (req: NextRequest) => {
     canReview,
   });
 });
+
+// Get all rooms - ADMIN => /api/admin/rooms
+export const allAdminRooms = catchAsycnErrors(async (req: NextRequest) => {
+  const rooms = await Room.find();
+
+  return NextResponse.json({
+    rooms,
+  });
+});
