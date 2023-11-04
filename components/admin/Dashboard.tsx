@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import SalesStats from "./SalesStats";
 import { SalesChart } from "../charts/SalesCharts";
-import { TopPerformingChart } from "../charts/TopPerforming";
+// import { TopPerformingChart } from "../charts/TopPerforming";
 import { useLazyGetSalesStatsQuery } from "@/redux/api/bookingApi";
 import toast from "react-hot-toast";
 import Loading from "@/app/loading";
