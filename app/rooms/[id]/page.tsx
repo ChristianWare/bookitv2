@@ -6,7 +6,11 @@ interface Props {
 }
 
 const getRoom = async (id: string) => {
-  const res = await fetch(`${process.env.API_URI}/api/rooms/${id}`);
+  const res = await fetch(`${process.env.API_URI}/api/rooms/${id}`, {
+    next: {
+      tags: ["RoomDetails"],
+    },
+  });
   return res.json();
 };
 
@@ -16,7 +20,6 @@ export default async function RoomDetailsPage({ params }: Props) {
   if (data?.errMessage) {
     return <Error error={data} />;
   }
-
 
   return (
     <div>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import ButtonLoader from "../layout/ButtonLoader";
 import { IRoom } from "@/backend/models/room";
+import { revalidateTag } from "@/helpers/revalidate";
 
 interface Props {
   data: {
@@ -55,7 +56,8 @@ const UpdateRoom = ({ data }: Props) => {
     }
 
     if (isSuccess) {
-      router.push("/admin/rooms");
+      revalidateTag("RoomDetails");
+      router.refresh();
       toast.success("Room updated");
     }
   }, [error, isSuccess, router]);
