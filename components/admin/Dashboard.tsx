@@ -22,12 +22,12 @@ const Dashboard = () => {
     }
 
     if (startDate && endDate && !data) {
-    getSalesStats({
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-    });  
+      getSalesStats({
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+      });
     }
-  }, [error]);
+  }, [data, endDate, error, getSalesStats, startDate]);
 
   const submitHandler = () => {
     getSalesStats({
@@ -35,6 +35,8 @@ const Dashboard = () => {
       endDate: endDate.toISOString(),
     });
   };
+
+  console.log(data);
 
   return (
     <div className='ps-4 my-5'>
@@ -76,7 +78,7 @@ const Dashboard = () => {
       <div className='row'>
         <div className='col-12 col-lg-8'>
           <h4 className='my-5 text-center'>Sales History</h4>
-          <SalesChart />
+          <SalesChart salesData={data?.sixMonthSalesData} />
         </div>
 
         <div className='col-12 col-lg-4 text-center'>

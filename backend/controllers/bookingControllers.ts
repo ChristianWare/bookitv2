@@ -109,6 +109,55 @@ export const getBookingDetails = catchAsycnErrors(
   }
 );
 
+const getLastSixMonthsSales = async () => {
+  const last6MonthsSales: any = [];
+
+  // Get current Date
+  const currentDate = moment();
+
+  async function fetchSalesForMonth(
+    startDate: moment.Moment,
+    endDate: moment.Moment
+  ) {
+    const result = await Booking.aggregate([
+      // Stage 1 => Filter the data
+      {
+        $match: {
+          createdAt: { $gte: startDate.toDate(), $lte: endDate.toDate() },
+        },
+      },
+      // Stage 2 => Grouping the data
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$amountPaid" },
+          numOfBookings: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const { totalSales, numOfBookings } =
+      result?.length > 0 ? result[0] : { totalSales: 0, numOfBookings: 0 };
+
+    last6MonthsSales.push({
+      monthName: startDate.format("MMMM"),
+      totalSales,
+      numOfBookings,
+    });
+  }
+  
+  for (let i = 0; i < 6; i++) {
+    const startDate = moment(currentDate).startOf("month");
+    const endDate = moment(currentDate).endOf("month");
+
+    await fetchSalesForMonth(startDate, endDate);
+
+    currentDate.subtract(1, "months");
+  }
+
+  return last6MonthsSales;
+};
+
 // Get sales stats => /api/admin/sales_stats
 export const getSalesStats = catchAsycnErrors(async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
@@ -128,8 +177,11 @@ export const getSalesStats = catchAsycnErrors(async (req: NextRequest) => {
     0
   );
 
+  const sixMonthSalesData = await getLastSixMonthsSales();
+
   return NextResponse.json({
     numberOfBookings,
     totalSales,
+    sixMonthSalesData,
   });
 });
