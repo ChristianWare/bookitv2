@@ -29,7 +29,21 @@ export const roomApi = createApi({
         };
       },
     }),
+    updateRoom: builder.mutation({
+      query({ id, body }) {
+        return {
+          url: `/admin/rooms/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { usePostReviewMutation, useCanUserReviewQuery, useNewRoomMutation } = roomApi;
+export const {
+  usePostReviewMutation,
+  useCanUserReviewQuery,
+  useNewRoomMutation,
+  useUpdateRoomMutation,
+} = roomApi;
