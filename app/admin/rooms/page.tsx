@@ -13,9 +13,6 @@ const getRooms = async () => {
 
   const res = await fetch(`${process.env.API_URI}/api/admin/rooms`, {
     headers: authHeaders.headers,
-    next: {
-      tags: ["Rooms"],
-    },
   });
   return res.json();
 };

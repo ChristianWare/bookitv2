@@ -7,7 +7,7 @@ import Booking from "../models/booking";
 
 // Get all rooms => /api/rooms
 export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
-  const resPerPage: number = 8;
+  // const resPerPage: number = 8;
 
   const { searchParams } = new URL(req.url);
 
@@ -22,13 +22,13 @@ export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
   let rooms: IRoom[] = await apiFilters.query;
   const filteredRoomsCount: number = rooms.length;
 
-  apiFilters.pagination(resPerPage);
+  // apiFilters.pagination(resPerPage);
   rooms = await apiFilters.query.clone();
 
   return NextResponse.json({
     success: true,
     filteredRoomsCount,
-    resPerPage,
+    // resPerPage,
     rooms,
   });
 });
@@ -36,6 +36,8 @@ export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
 // Create new room => /api/admin/rooms
 export const newRoom = catchAsycnErrors(async (req: NextRequest) => {
   const body = await req.json();
+
+  body.user = req.user._id;
 
   const room = await Room.create(body);
 
