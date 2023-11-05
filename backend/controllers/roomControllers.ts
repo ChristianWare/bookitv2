@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import Room, { IReview, IRoom } from "../models/room";
+import Room, { IImage, IReview, IRoom } from "../models/room";
 import ErrorHandler from "../utils/errorHandler";
 import { catchAsycnErrors } from "../middlewares/catchAsyncErrors";
 import APIFilters from "../utils/apiFilters";
 import Booking from "../models/booking";
-import { upload_file } from "../utils/cloudinary";
+import { delete_file, upload_file } from "../utils/cloudinary";
 
 // Get all rooms => /api/rooms
 export const allRoooms = catchAsycnErrors(async (req: NextRequest) => {
@@ -85,7 +85,7 @@ export const updateRoom = catchAsycnErrors(
   }
 );
 
-// Uplaod room images => /api/admin/rooms/:id/uplaod_images
+// Upload room images => /api/admin/rooms/:id/uplaod_images
 export const uploadRoomImages = catchAsycnErrors(
   async (req: NextRequest, { params }: { params: { id: string } }) => {
     const room = await Room.findById(params.id);
@@ -101,6 +101,33 @@ export const uploadRoomImages = catchAsycnErrors(
     const urls = await Promise.all((body?.images).map(uploader));
 
     room?.images?.push(...urls);
+
+    await room.save();
+
+    return NextResponse.json({
+      success: true,
+      room,
+    });
+  }
+);
+
+// Delete room image => /api/admin/rooms/:id/delete_image
+export const deleteRoomImage = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const room = await Room.findById(params.id);
+    const body = await req.json();
+
+    if (!room) {
+      throw new ErrorHandler("Room not found", 404);
+    }
+
+    const isDeleted = await delete_file(body?.imgId);
+
+    if (isDeleted) {
+      room.images = room?.images.filter(
+        (img: IImage) => img.public_id !== body.imgId
+      );
+    }
 
     await room.save();
 

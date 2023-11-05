@@ -157,7 +157,7 @@ const roomSchema: Schema<IRoom> = new Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   createdAt: {
     type: Date,
@@ -169,7 +169,7 @@ const roomSchema: Schema<IRoom> = new Schema({
 roomSchema.pre("save", async function (next) {
   const loc = await geoCoder.geocode(this.address);
 
-  console.log("location", loc);
+  // console.log("location", loc);
 
   this.location = {
     type: "Point",
