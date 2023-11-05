@@ -41,7 +41,7 @@ const RoomDetails = ({ data }: Props) => {
 
   return (
     <div className='container container-fluid'>
-      <h2 className='mt-5'>{room.name}</h2>
+      <h2 className='mt-5'>{room?.name}</h2>
       <p>{room.address}</p>
 
       <div className='ratings mt-auto mb-3'>

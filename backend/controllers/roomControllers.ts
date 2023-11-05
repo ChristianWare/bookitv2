@@ -98,7 +98,7 @@ export const uploadRoomImages = catchAsycnErrors(
     const uploader = async (image: string) =>
       upload_file(image, "bookit/rooms");
 
-    const urls = (await Promise.all(body?.images)).map(uploader);
+    const urls = await Promise.all((body?.images).map(uploader));
 
     room?.images?.push(...urls);
 

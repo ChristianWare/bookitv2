@@ -1,11 +1,9 @@
 import Error from "@/app/error";
-import Home from "@/components/Home";
-import AllRooms from "@/components/admin/AllRooms";
-import UpdateRoom from "@/components/admin/UpdateRoom";
+import UploadRoomImages from "@/components/admin/UploadRoomImages";
 import { getAuthHeader } from "@/helpers/authHeaders";
 
 export const metadata = {
-  title: "Update Room - Admin || BookIT",
+  title: "Update Room Images - Admin || BookIT",
   description: "This is the description for the home page of this application.",
 };
 
@@ -18,7 +16,7 @@ const getRoom = async (id: string) => {
   return res.json();
 };
 
-export default async function AdminUpdateRoomPage({
+export default async function AdminUploadImagesPage({
   params,
 }: {
   params: { id: string };
@@ -31,7 +29,7 @@ export default async function AdminUpdateRoomPage({
 
   return (
     <div className='container'>
-      <UpdateRoom data={data} />
+      <UploadRoomImages data={data} />
     </div>
   );
 }
