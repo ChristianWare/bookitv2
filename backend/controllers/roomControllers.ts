@@ -147,7 +147,10 @@ export const deleteRoom = catchAsycnErrors(
       throw new ErrorHandler("Room not found", 404);
     }
 
-    // To do: delete images associated with the room
+    // Delete images associated with the room
+    for (let i = 0; i < room?.images?.length; i++) {
+      await delete_file(room?.images[i].public_id);
+    }
 
     await room.deleteOne();
 

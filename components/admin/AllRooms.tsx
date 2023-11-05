@@ -1,8 +1,12 @@
 "use client";
 
 import { IRoom } from "@/backend/models/room";
+import { useDeleteRoomMutation } from "@/redux/api/roomApi";
 import { MDBDataTable } from "mdbreact";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 interface Props {
   data: {
@@ -12,6 +16,20 @@ interface Props {
 
 const AllRooms = ({ data }: Props) => {
   const rooms = data?.rooms;
+  const router = useRouter();
+
+  const [deleteRoom, { error, isSuccess }] = useDeleteRoomMutation();
+
+  useEffect(() => {
+    if (error && "data" in error) {
+      toast.error(error?.data?.errMessage);
+    }
+
+    if (isSuccess) {
+      router.refresh();
+      toast.success("Room deleted");
+    }
+  }, [error, isSuccess, router]);
 
   const setRooms = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -58,7 +76,10 @@ const AllRooms = ({ data }: Props) => {
               >
                 <i className='fa fa-images'></i>
               </Link>
-              <button className='btn btn-outline-danger ms-2'>
+              <button
+                className='btn btn-outline-danger ms-2'
+                onClick={() => deleteRoomHandler(room._id)}
+              >
                 <i className='fa fa-trash'></i>
               </button>
             </>
@@ -68,6 +89,11 @@ const AllRooms = ({ data }: Props) => {
 
     return data;
   };
+
+  const deleteRoomHandler = (id: string) => {
+    deleteRoom(id);
+  };
+
   return (
     <div>
       <h1 className='my-5 position-relative'>
