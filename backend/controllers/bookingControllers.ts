@@ -197,3 +197,20 @@ export const allAdminBookings = catchAsycnErrors(async (req: NextRequest) => {
     bookings,
   });
 });
+
+// Delete Booking => /api/admin/bookings/:id
+export const deleteBooking = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const booking = await Booking.findById(params.id);
+
+    if (!booking) {
+      throw new ErrorHandler("Booking not foiund with this ID", 404);
+    }
+
+    await booking?.deleteOne();
+
+    return NextResponse.json({
+      success: true,
+    });
+  }
+);

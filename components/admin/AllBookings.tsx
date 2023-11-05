@@ -1,8 +1,12 @@
 "use client";
 
 import { IBooking } from "@/backend/models/booking";
+import { useDeleteBookingMutation } from "@/redux/api/bookingApi";
 import { MDBDataTable } from "mdbreact";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 interface Props {
   data: {
@@ -13,6 +17,11 @@ interface Props {
 const AllBookings = ({ data }: Props) => {
   const bookings = data?.bookings;
 
+  const router = useRouter();
+
+  const [deleteBooking, { error, isLoading, isSuccess }] =
+    useDeleteBookingMutation();
+
   const formatDate = (date: any) => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "2-digit",
@@ -20,6 +29,17 @@ const AllBookings = ({ data }: Props) => {
       day: "2-digit",
     });
   };
+
+  useEffect(() => {
+    if (error && "data" in error) {
+      toast.error(error?.data?.errMessage);
+    }
+
+    if (isSuccess) {
+      router.refresh();
+      toast.success("Booking deleted");
+    }
+  }, [error, isSuccess, router]);
 
   const setBookings = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -78,8 +98,12 @@ const AllBookings = ({ data }: Props) => {
               >
                 <i className='fa fa-receipt'></i>
               </Link>
-              <button className="btn btn-outline-danger mx-2">
-                <i className="fa fa-trash"></i>
+              <button
+                className='btn btn-outline-danger mx-2'
+                disabled={isLoading}
+                onClick={() => deleteBookingHandler(booking?._id)}
+              >
+                <i className='fa fa-trash'></i>
               </button>
             </>
           ),
@@ -87,6 +111,10 @@ const AllBookings = ({ data }: Props) => {
       });
 
     return data;
+  };
+
+  const deleteBookingHandler = (id: string) => {
+    deleteBooking(id);
   };
 
   return (
