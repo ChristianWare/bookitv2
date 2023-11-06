@@ -1,16 +1,24 @@
 "use client";
 
 import { IReview } from "@/backend/models/room";
-import { useLazyGetRoomReviewsQuery } from "@/redux/api/roomApi";
+import {
+  useDeleteReviewMutation,
+  useLazyGetRoomReviewsQuery,
+} from "@/redux/api/roomApi";
 import { MDBDataTable } from "mdbreact";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const RoomReviews = () => {
   const [roomId, setRoomId] = useState("");
 
+  const router = useRouter();
+
   const [getRoomReviews, { data, error }] = useLazyGetRoomReviewsQuery();
   const reviews = data?.reviews || [];
+
+  const [deleteReview, { isSuccess, isLoading }] = useDeleteReviewMutation();
 
   const getRoomReviewsHandler = () => {
     getRoomReviews(roomId);
@@ -21,11 +29,11 @@ const RoomReviews = () => {
       toast.error(error?.data?.errMessage);
     }
 
-    // if (isSuccess) {
-    //   router.refresh();
-    //   toast.success("User deleted");
-    // }
-  }, [error]);
+    if (isSuccess) {
+      router.refresh();
+      toast.success("Review deleted");
+    }
+  }, [error, isSuccess, router]);
 
   const setReviews = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -64,8 +72,8 @@ const RoomReviews = () => {
           <div className='d-flex'>
             <button
               className='btn btn-outline-danger mx-2'
-              // disabled={isLoading}
-              // onClick={() => deleteUserHandler(user?._id)}
+              disabled={isLoading}
+              onClick={() => deleteReviewHandler(review?._id)}
             >
               <i className='fa fa-trash'></i>
             </button>
@@ -75,6 +83,10 @@ const RoomReviews = () => {
     });
 
     return data;
+  };
+
+  const deleteReviewHandler = (id: string) => {
+    deleteReview({ id, roomId });
   };
 
   return (
