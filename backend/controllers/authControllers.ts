@@ -163,3 +163,12 @@ export const resetPassword = catchAsycnErrors(
     });
   }
 );
+
+// Get all users => /api/admin/users
+export const allAdminUsers = catchAsycnErrors(async (req: NextRequest) => {
+  const users = await User.find();
+
+  return NextResponse.json({
+    users,
+  });
+});

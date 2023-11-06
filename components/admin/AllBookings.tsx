@@ -88,13 +88,13 @@ const AllBookings = ({ data }: Props) => {
             <>
               <Link
                 href={`/bookings/${booking._id}`}
-                className='btn btn-primary'
+                className='btn btn-outline-primary'
               >
                 <i className='fa fa-eye'></i>
               </Link>
               <Link
                 href={`/bookings/invoice/${booking._id}`}
-                className='btn btn-success ms-2'
+                className='btn btn-outline-success ms-2'
               >
                 <i className='fa fa-receipt'></i>
               </Link>
