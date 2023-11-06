@@ -224,3 +224,14 @@ export const allAdminRooms = catchAsycnErrors(async (req: NextRequest) => {
     rooms,
   });
 });
+
+// Get room reviews - ADMIN => /api/admin/rooms/reviews
+export const getRoomReviews = catchAsycnErrors(async (req: NextRequest) => {
+  const { searchParams } = new URL(req.url);
+
+  const room = await Room.findById(searchParams.get("roomId"));
+
+  return NextResponse.json({
+    reviews: room.reviews,
+  });
+});

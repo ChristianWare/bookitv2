@@ -64,6 +64,13 @@ export const roomApi = createApi({
         };
       },
     }),
+    getRoomReviews: builder.query({
+      query(id) {
+        return {
+          url: `admin/rooms/reviews?roomId=${id}`,
+        };
+      },
+    }),
   }),
 });
 
@@ -74,5 +81,6 @@ export const {
   useUpdateRoomMutation,
   useUploadRoomImagesMutation,
   useDeleteRoomImageMutation,
-  useDeleteRoomMutation
+  useDeleteRoomMutation,
+  useLazyGetRoomReviewsQuery,
 } = roomApi;
