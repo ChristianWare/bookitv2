@@ -199,10 +199,32 @@ export const updateUser = catchAsycnErrors(
       role: body.role,
     };
 
-    const user = await User.findByIdAndUpdate(params.id, newUserData)
+    const user = await User.findByIdAndUpdate(params.id, newUserData);
 
     return NextResponse.json({
       user,
+    });
+  }
+);
+
+// Delete user details => /api/admin/users/:id
+export const deleteUser = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const user = await User.findById(params.id);
+
+    if (!user) {
+      throw new ErrorHandler("User not found with this ID", 404);
+    }
+
+    // Remove avatar from cloudinary
+    if (user?.avatar?.public_id) {
+      await delete_file(user?.avatar?.public_id);
+    }
+
+    await user.deleteOne();
+
+    return NextResponse.json({
+      success: true,
     });
   }
 );

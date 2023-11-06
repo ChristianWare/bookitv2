@@ -1,6 +1,7 @@
 "use client";
 
 import { IUser } from "@/backend/models/user";
+import { useDeleteUserMutation } from "@/redux/api/userApi";
 import { MDBDataTable } from "mdbreact";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,30 +16,27 @@ interface Props {
 
 const AllUsers = ({ data }: Props) => {
   const users = data?.users;
-
   const router = useRouter();
+  const [deleteUser, { error, isLoading, isSuccess }] = useDeleteUserMutation();
 
-  //   const [deleteBooking, { error, isLoading, isSuccess }] =
-  //     useDeleteBookingMutation();
+  const formatDate = (date: any) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    });
+  };
 
-  //   const formatDate = (date: any) => {
-  //     return new Date(date).toLocaleDateString("en-US", {
-  //       year: "2-digit",
-  //       month: "2-digit",
-  //       day: "2-digit",
-  //     });
-  //   };
+  useEffect(() => {
+    if (error && "data" in error) {
+      toast.error(error?.data?.errMessage);
+    }
 
-  //   useEffect(() => {
-  //     if (error && "data" in error) {
-  //       toast.error(error?.data?.errMessage);
-  //     }
-
-  //     if (isSuccess) {
-  //       router.refresh();
-  //       toast.success("Booking deleted");
-  //     }
-  //   }, [error, isSuccess, router]);
+    if (isSuccess) {
+      router.refresh();
+      toast.success("User deleted");
+    }
+  }, [error, isSuccess, router]);
 
   const setUsers = () => {
     const data: { columns: any[]; rows: any[] } = {
@@ -96,8 +94,8 @@ const AllUsers = ({ data }: Props) => {
 
               <button
                 className='btn btn-outline-danger mx-2'
-                // disabled={isLoading}
-                // onClick={() => deleteBookingHandler(user?._id)}
+                disabled={isLoading}
+                onClick={() => deleteUserHandler(user?._id)}
               >
                 <i className='fa fa-trash'></i>
               </button>
@@ -109,9 +107,9 @@ const AllUsers = ({ data }: Props) => {
     return data;
   };
 
-  //   const deleteBookingHandler = (id: string) => {
-  //     deleteBooking(id);
-  //   };
+  const deleteUserHandler = (id: string) => {
+    deleteUser(id);
+  };
 
   return (
     <div className='container'>
