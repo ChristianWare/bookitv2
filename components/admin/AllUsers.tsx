@@ -88,7 +88,7 @@ const AllUsers = ({ data }: Props) => {
           actions: (
             <div className='d-flex'>
               <Link
-                href={`/users/${user._id}`}
+                href={`/admin/users/${user._id}`}
                 className='btn btn-outline-primary'
               >
                 <i className='fa fa-pencil'></i>

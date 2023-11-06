@@ -16,7 +16,7 @@ const getUsers = async () => {
   return res.json();
 };
 
-export default async function AdminRoomsPage() {
+export default async function AdminUsersPage() {
   const data = await getUsers();
 
   if (data?.errMessage) {

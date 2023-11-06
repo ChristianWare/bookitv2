@@ -172,3 +172,37 @@ export const allAdminUsers = catchAsycnErrors(async (req: NextRequest) => {
     users,
   });
 });
+
+// Get user details => /api/admin/users/:id
+export const getUserDetails = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const user = await User.findById(params.id);
+
+    if (!user) {
+      throw new ErrorHandler("User not found with this ID", 404);
+    }
+
+    return NextResponse.json({
+      user,
+    });
+  }
+);
+
+// Update user details => /api/admin/users/:id
+export const updateUser = catchAsycnErrors(
+  async (req: NextRequest, { params }: { params: { id: string } }) => {
+    const body = await req.json();
+
+    const newUserData = {
+      name: body.name,
+      email: body.email,
+      role: body.role,
+    };
+
+    const user = await User.findByIdAndUpdate(params.id, newUserData)
+
+    return NextResponse.json({
+      user,
+    });
+  }
+);
