@@ -6,7 +6,7 @@ interface Props {
   params: { id: string };
 }
 
-export const metaData = {
+export const metadata = {
   title: "Update User - Admin || BookIt",
 };
 
