@@ -1,7 +1,7 @@
 "use client";
 
 import { IBooking } from "@/backend/models/booking";
-import "./Invoice.css";
+import "./invoice.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Image from "next/image";
