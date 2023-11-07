@@ -10,9 +10,7 @@ export const revalidate = 0;
 
 const getRooms = async () => {
   try {
-    const res = await fetch(
-      "https://bookitv2-christianware.vercel.app/api/rooms"
-    );
+    const res = await fetch(`${process.env.API_URI}/api/rooms`);
     const data = res.json();
     return data;
   } catch (error) {
