@@ -37,7 +37,7 @@ const RoomDetails = ({ data }: Props) => {
       new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
     };
     if (room?.location) setMap();
-  }, []);
+  }, [room?.location]);
 
   return (
     <div className='container container-fluid'>

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import ButtonLoader from "../layout/ButtonLoader";
+import Image from "next/image";
 
 interface Props {
   data: {
@@ -146,7 +147,7 @@ const UploadRoomImages = ({ data }: Props) => {
                   {imagesPreview?.map((img, index) => (
                     <div className='col-md-3 mt-2' key={index}>
                       <div className='card'>
-                        <img
+                        <Image
                           src={img}
                           alt='Image Preview'
                           className='card-img-top p-2'
@@ -177,7 +178,7 @@ const UploadRoomImages = ({ data }: Props) => {
                   {uploadImages?.map((img, index) => (
                     <div className='col-md-3 mt-2' key={index}>
                       <div className='card'>
-                        <img
+                        <Image
                           src={img?.url}
                           alt={img?.url}
                           className='card-img-top p-2'

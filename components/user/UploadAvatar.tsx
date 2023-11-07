@@ -10,6 +10,7 @@ import {
 import { setUser } from "@/redux/features/userSlice";
 import toast from "react-hot-toast";
 import ButtonLoader from "../layout/ButtonLoader";
+import Image from "next/image";
 
 const UploadAvatar = () => {
   const dispatch = useAppDispatch();
@@ -79,7 +80,7 @@ const UploadAvatar = () => {
             <div className='d-flex align-items-center'>
               <div className='me-3'>
                 <figure className='avatar item-rtl'>
-                  <img
+                  <Image
                     src={avatarPreview}
                     className='rounded-circle'
                     alt='image'
