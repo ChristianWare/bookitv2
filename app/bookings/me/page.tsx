@@ -1,5 +1,4 @@
 import Error from "@/app/error";
-import Home from "@/components/Home";
 import MyBookings from "@/components/booking/MyBookings";
 import { getAuthHeader } from "@/helpers/authHeaders";
 
