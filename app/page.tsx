@@ -6,11 +6,16 @@ export const metadata = {
   description: "This is the description for the home page of this application.",
 };
 
+export const revalidate = 0;
+
 const getRooms = async () => {
-  const res = await fetch(`${process.env.API_URI}/api/rooms`, {
-    cache: "no-cache",
-  });
-  return res.json();
+  try {
+    const res = await fetch(`${process.env.API_URI}/api/rooms`);
+    const data = res.json();
+    return data;
+  } catch (error) {
+    console.log("error => ", error);
+  }
 };
 
 export default async function HomePage() {
