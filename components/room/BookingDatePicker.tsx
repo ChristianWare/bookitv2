@@ -106,7 +106,26 @@ const BookingDatePicker = ({ room }: Props) => {
 
   const formatDate = (date: any) => {
     const options = { year: "numeric", month: "short", day: "2-digit" };
-    return date.toLocaleDateString("en-US", options);
+    const formattedDate = date.toLocaleDateString("en-US", options);
+    const day = date.getDate();
+    const dayStr = day.toString();
+    const lastDigit = day % 10;
+
+    let suffix = "th";
+    if (day > 10 && day < 20) {
+      suffix = "th"; // Special case for teens
+    } else if (lastDigit === 1) {
+      suffix = "st";
+    } else if (lastDigit === 2) {
+      suffix = "nd";
+    } else if (lastDigit === 3) {
+      suffix = "rd";
+    }
+
+    // Append the suffix to the day part
+    const formattedWithSuffix = formattedDate.replace(dayStr, dayStr + suffix);
+
+    return formattedWithSuffix;
   };
 
   return (
@@ -148,8 +167,7 @@ const BookingDatePicker = ({ room }: Props) => {
               maximumFractionDigits: 2,
             })}
             <hr />
-            <b>Total Cost: </b> 300.00 $
-            
+            {/* <b>Total Cost: </b> 300.00 $ */}
           </div>
         </>
       )}
