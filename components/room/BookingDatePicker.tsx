@@ -134,7 +134,7 @@ const BookingDatePicker = ({ room }: Props) => {
           <div className='alert alert-success my-3'>
             Room is available. Book now.
           </div>
-          <p>
+          <div>
             <b>Length of stay: </b>
             {daysOfStay} {daysOfStay === 1 ? "day" : "days"}
             <hr />
@@ -147,7 +147,10 @@ const BookingDatePicker = ({ room }: Props) => {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
-          </p>
+            <hr />
+            <b>Total Cost: </b> 300.00 $
+            
+          </div>
         </>
       )}
       {isAvailable === false && (
