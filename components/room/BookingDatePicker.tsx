@@ -79,36 +79,35 @@ const BookingDatePicker = ({ room }: Props) => {
 
   const bookRoom = () => {
     if (checkInDate && checkOutDate) {
-      const amount = room.pricePerNight * daysOfStay;
-      const checkoutData = {
-        checkInDate: checkInDate.toISOString(),
-        checkOutDate: checkOutDate.toISOString(),
-        daysOfStay,
-        amount,
-      };
-
-      stripeCheckout({ id: room?._id, checkoutData });
+      if (isAuthenticated) {
+        const amount = room.pricePerNight * daysOfStay;
+        const checkoutData = {
+          checkInDate: checkInDate.toISOString(),
+          checkOutDate: checkOutDate.toISOString(),
+          daysOfStay,
+          amount,
+        };
+        stripeCheckout({ id: room?._id, checkoutData });
+      } else {
+        // User is not authenticated, show a toast notification
+        // toast.error("Login to book the room");
+        router.push("/login");
+      }
     } else {
       // Handle the case where checkInDate or checkOutDate is null
       console.error("Check-in and check-out dates are required.");
     }
   };
 
-  // const bookRoom = () => {
-  //   const bookingData = {
-  //     room: room?._id,
-  //     checkInDate,
-  //     checkOutDate,
-  //     daysOfStay,
-  //     amountPaid: room.pricePerNight * daysOfStay,
-  //     paymentInfo: {
-  //       id: "STRIPE_ID",
-  //       status: "PAID",
-  //     },
-  //   };
+  const clearDates = () => {
+    setCheckInDate(null);
+    setCheckOutDate(null);
+  };
 
-  //   newBooking(bookingData);
-  // };
+  const formatDate = (date: any) => {
+    const options = { year: "numeric", month: "short", day: "2-digit" };
+    return date.toLocaleDateString("en-US", options);
+  };
 
   return (
     <div className='booking-card shadow p-4'>
@@ -130,20 +129,27 @@ const BookingDatePicker = ({ room }: Props) => {
         inline
       />
 
-      {isAvailable === true &&
-        checkInDate &&
-        checkOutDate &&(
+      {isAvailable === true && checkInDate && checkOutDate && (
+        <>
           <div className='alert alert-success my-3'>
-            Room is available. Book now for{" "}
-            <b>
-              $
-              {totalCost.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </b>
+            Room is available. Book now.
           </div>
-        )}
+          <p>
+            <b>Length of stay: </b>
+            {daysOfStay} {daysOfStay === 1 ? "day" : "days"}
+            <hr />
+            <b>Check-In:</b> {formatDate(checkInDate)} @ 10:00 AM
+            <hr />
+            <b>Check-Out:</b> {formatDate(checkOutDate)} @ 10:00 AM
+            <hr />
+            <b>Total Cost: </b> $
+            {totalCost.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </p>
+        </>
+      )}
       {isAvailable === false && (
         <div className='alert alert-danger my-3'>
           Room not available. Try different dates.
@@ -155,8 +161,15 @@ const BookingDatePicker = ({ room }: Props) => {
           Login to book room.
         </div>
       )}
-
-      {/* {isAvailable && isAuthenticated && ( */}
+      {/* {checkInDate && checkOutDate && (
+        <button
+          className='btn py-3 form-btn w-100'
+          onClick={clearDates}
+          disabled={!checkInDate || !checkOutDate || !isAvailable || isLoading}
+        >
+          Clear
+        </button>
+      )} */}
       <button
         className='btn py-3 form-btn w-100'
         onClick={bookRoom}
@@ -164,7 +177,6 @@ const BookingDatePicker = ({ room }: Props) => {
       >
         Book Now
       </button>
-      {/* )} */}
     </div>
   );
 };
