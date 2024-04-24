@@ -30,8 +30,6 @@ const UploadRoomImages = ({ data }: Props) => {
     }
   }, [data]);
 
-  
-
   const router = useRouter();
 
   const [uploadRoomImages, { error, isLoading, isSuccess }] =
@@ -151,7 +149,9 @@ const UploadRoomImages = ({ data }: Props) => {
                           src={img}
                           alt='Image Preview'
                           className='card-img-top p-2'
-                          style={{ width: "100%", height: "80px" }}
+                          // style={{ width: "100%", height: "80px" }}
+                          width={200}
+                          height={200}
                         />
                         <button
                           style={{
@@ -182,7 +182,9 @@ const UploadRoomImages = ({ data }: Props) => {
                           src={img?.url}
                           alt={img?.url}
                           className='card-img-top p-2'
-                          style={{ width: "100%", height: "80px" }}
+                          // style={{ width: "100%", height: "80px" }}
+                          width={200}
+                          height={200}
                         />
                         <button
                           style={{

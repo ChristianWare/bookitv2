@@ -23,6 +23,7 @@ export default async function MyBookingsPage({
   params: { id: string };
 }) {
   const data = await getBooking(params?.id);
+  console.log(data);
 
   if (data?.errMessage) {
     return <Error error={data} />;
